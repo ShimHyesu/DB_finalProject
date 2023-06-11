@@ -273,4 +273,36 @@ while row:
     row = curs.fetchone()
 # -
 
+# ## 검색조건 입력받기
+
+# +
+movieNameInput = input("영화 제목을 입력하세요")
+productionYearInput = input("제작연도를 입력하세요")
+countryInput = input("제작국가를 입력하세요")
+genreInput = input("장르를 입력하세요")
+directorInput = input("감독을 입력하세요")
+
+sql_input = """ SELECT m.name, m.production_year, c.name, g.genre, d.name 
+    FROM Movie m, Director d, Country c, Genre g, Movie_Director md, Movie_Country mc 
+    WHERE m.id = md.movie_id and d.id = md.director_id and m.id = mc.movie_id and c.id = mc.country_id and m.id = g.movie_id
+"""
+if(movieNameInput):
+    sql_input += f"and m.name like '%{movieNameInput}%'"
+if(productionYearInput):
+    sql_input += f"and m.production_year = {productionYearInput}"
+if(countryInput):
+    sql_input += f"and c.name = {countryInput}"
+if(genreInput):
+    sql_input += f"and g.genre = {genreInput}"
+if(directorInput):
+    sql_input += f"and d.name = {directorInput}"
+    
+
+curs.execute(sql_input)
+result = curs.fetchone()
+while result:
+    print(result)
+    result = curs.fetchone()
+# -
+
 
