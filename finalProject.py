@@ -305,4 +305,5 @@ while result:
     result = curs.fetchone()
 # -
 
-
+curs.close()
+conn.close()
